@@ -10,5 +10,5 @@ Have fun trying out Rebus, I know I am.
 
 ### Some Resources:
 - [Rebus GitHub Project](https://github.com/rebus-org/Rebus)
-- [Rebus Website](https://rebus.fm/)
+- [Rebus Website](https://rebus.fm/what-is-rebus/)
 - [Rebus Samples](https://github.com/rebus-org/RebusSamples)
