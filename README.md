@@ -8,8 +8,7 @@ You will need Docker (I use Docker Desktop) and perform a docker-compose up usin
 
 Have fun trying out Rebus, I know I am.
 
-
-Some Resources:
+### Some Resources:
 - [Rebus GitHub Project](https://github.com/rebus-org/Rebus)
 - [Rebus Website](https://rebus.fm/)
 - [Rebus Samples](https://github.com/rebus-org/RebusSamples)
