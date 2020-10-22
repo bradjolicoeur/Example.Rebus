@@ -20,6 +20,8 @@ namespace Example.Rebus.Client
     {
         private static async Task Main(string[] args)
         {
+            var SqsConfig = new AmazonSQSConfig { UseHttp = true, ServiceURL = "http://localhost:4566", }; //for localstack
+
             await Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -31,8 +33,7 @@ namespace Example.Rebus.Client
                     //Configure Rebus
                     services.AddRebus(configure => configure
                         .Logging(l => l.ColoredConsole())
-                        .Transport(t => t.UseAmazonSQSAsOneWayClient(new AmazonSQSConfig {  UseHttp = true, ServiceURL = "http://localhost:4566", }))
-                        //.Transport(t => t.UseInMemoryTransport(new InMemNetwork(), "ClientMessages"))
+                        .Transport(t => t.UseAmazonSQSAsOneWayClient(SqsConfig)) //this is a send only endpoint
                         .Routing(r => r.TypeBased().MapAssemblyOf<ImportantMessage>("ServerMessages")));
 
                     //Jobs
@@ -64,7 +65,7 @@ namespace Example.Rebus.Client
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogDebug($"Starting with arguments: {string.Join(" ", Environment.GetCommandLineArgs())}");
+            _logger.LogDebug($"Starting Service");
 
             _serviceProvider.UseRebus();
 

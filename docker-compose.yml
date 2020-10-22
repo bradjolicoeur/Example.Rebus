@@ -1,0 +1,34 @@
+version: '2.1'
+
+services:
+    localstack:
+        container_name: "${LOCALSTACK_DOCKER_NAME-localstack_rebus}"
+        image: localstack/localstack
+        ports:
+        - "4566:4566"
+        - "4571:4571"
+        - "${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}"
+        environment:
+        - SERVICES=${SERVICES-s3,sqs }
+        - DEBUG=${DEBUG- }
+        - DATA_DIR=${DATA_DIR- }
+        - PORT_WEB_UI=${PORT_WEB_UI- }
+        - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
+        - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
+        - DOCKER_HOST=unix:///var/run/docker.sock
+        volumes:
+        - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+        - "/var/run/docker.sock:/var/run/docker.sock"
+
+    db:
+        image: "postgres"
+        container_name: postgresql
+        environment:
+            - POSTGRES_DB=messagewrangler
+            - POSTGRES_USER=messagewrangler
+            - POSTGRES_PASSWORD=password
+        ports:
+            - 5432:5432
+
+            
+    
