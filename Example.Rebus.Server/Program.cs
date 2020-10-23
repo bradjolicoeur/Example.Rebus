@@ -59,6 +59,7 @@ namespace Example.Rebus.Server
         {
             _logger.LogDebug($"Starting service");
 
+            //Activate Rebus
             _serviceProvider.UseRebus();
 
             //Send message to self...just to see how this works
