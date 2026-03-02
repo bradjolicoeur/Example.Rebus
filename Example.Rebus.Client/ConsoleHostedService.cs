@@ -29,30 +29,28 @@ namespace Example.Rebus.Client
             _jobs = jobs;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogDebug($"Starting Service");
+
+        //schedule job to send request message
+        //Note, if this endpoint is scaled out, each instance will execute this job
+        ConfigureJobLogger();
+
+        foreach(var job in _jobs)
         {
-            _logger.LogDebug($"Starting Service");
-
-            _serviceProvider.UseRebus();
-
-            //schedule job to send request message
-            //Note, if this endpoint is scaled out, each instance will execute this job
-            ConfigureJobLogger();
-
-            foreach(var job in _jobs)
+            JobManager.AddJob(
+            (IJob)job,
+            schedule =>
             {
-                JobManager.AddJob(
-                (IJob)job,
-                schedule =>
-                {
-                    schedule
-                        .ToRunNow()
-                        .AndEvery(1).Seconds();
-                });
-            }
-
-            return Task.CompletedTask;
+                schedule
+                    .ToRunNow()
+                    .AndEvery(1).Seconds();
+            });
         }
+
+        return Task.CompletedTask;
+    }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {

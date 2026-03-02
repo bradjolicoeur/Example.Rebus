@@ -25,18 +25,15 @@ namespace Example.Rebus.Server
             _serviceProvider = serviceProvider;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogDebug($"Starting service");
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogDebug($"Starting service");
 
-            //Activate Rebus
-            _serviceProvider.UseRebus();
+        //Send message to self...just to see how this works
+        _bus.SendLocal(new ImportantMessage());
 
-            //Send message to self...just to see how this works
-            _bus.SendLocal(new ImportantMessage());
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
