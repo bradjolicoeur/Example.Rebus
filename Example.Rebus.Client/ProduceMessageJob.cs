@@ -1,14 +1,11 @@
-﻿using Example.Rebus.Contracts;
+using Example.Rebus.Contracts;
 using FluentScheduler;
 using Microsoft.Extensions.Logging;
 using Rebus.Bus;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Example.Rebus.Client
 {
-    public class ProduceMessageJob : IJob
+    internal sealed class ProduceMessageJob : IJob
     {
         private readonly ILogger<ProduceMessageJob> _logger;
         private readonly IBus _bus;
@@ -18,6 +15,7 @@ namespace Example.Rebus.Client
             _logger = logger;
             _bus = bus;
         }
+
         public void Execute()
         {
             _logger.LogInformation("Executing ProduceMessageJob");
